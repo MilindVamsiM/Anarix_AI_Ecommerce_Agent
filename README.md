@@ -1,194 +1,242 @@
-E-commerce AI Data Analytics Agent
-A comprehensive AI-powered data analysis system that uses Mistral 7B to answer natural language questions about e-commerce data through SQL queries and interactive visualizations.
+# E-commerce AI Data Analytics Agent
 
-🚀 Project Overview
-This project creates an intelligent AI agent that can process natural language questions about e-commerce data, convert questions to SQL queries using Mistral 7B LLM, execute queries against a SQLite database, generate interactive visualizations (charts, graphs), provide a web-based dashboard interface and offer real-time API responses.
+An AI-powered FastAPI and Streamlit solution that answers natural language queries about your e-commerce business with metrics, insights, and automatic visualizations, using Mistral 7B or compatible LLMs.
 
-📋 Prerequisites
-System Requirements
-Operating System: Windows 10/11, macOS, or Linux
+Your project loads e-commerce sales, ad sales, and eligibility data from CSVs into a SQLite database, enabling both programmatic (API) and interactive (dashboard) access.
 
-RAM: 16GB minimum (32GB recommended for optimal performance)
+## 🚀 Features
 
-Storage: 20GB free space
+- **FastAPI Backend** - RESTful API for programmatic data querying and insight generation
+- **Streamlit Dashboard** - Interactive web interface for business intelligence queries
+- **AI-Powered Analytics** - Automatic SQL query generation via Mistral 7B model (via Ollama)
+- **Smart Formatting** - LLM-powered business-friendly explanations and insights
+- **Automatic Visualizations** - Dynamic chart generation (bar, line, pie charts, etc.)
+- **Demo Endpoints** - Pre-built KPI queries (Total Sales, RoAS, Highest CPC, etc.)
 
-Python: 3.8 or higher
+## 📁 Project Structure
 
-Required Software
-Python 3.8+ - Download from python.org
-
-Ollama - Download from ollama.com
-
-Git (optional) - For cloning the repository
-
-🛠️ Installation Guide
-Step 1: Install Python Dependencies
-Create a virtual environment (recommended):
-
-bash
-python -m venv vamsi
-Activate the virtual environment:
-
-bash
-# Windows
-vamsi\Scripts\activate
-
-# macOS/Linux
-source vamsi/bin/activate
-Install required packages:
-
-bash
-pip install fastapi==0.104.1
-pip install uvicorn==0.24.0
-pip install pandas==2.1.3
-pip install numpy==1.25.2
-pip install matplotlib==3.8.2
-pip install plotly==5.17.0
-pip install streamlit==1.28.2
-pip install requests==2.31.0
-pip install pydantic==2.5.0
-Step 2: Install and Setup Ollama
-Download and install Ollama from the official website
-
-Open terminal/command prompt and install Mistral 7B:
-
-bash
-ollama pull mistral:7b-instruct
-Verify installation:
-
-bash
-ollama run mistral:7b-instruct
-Type "exit" to close the model after verification.
-
-Step 3: Project Structure
-Create your project directory with the following structure:
-
-text
-ecommerce_ai_agent/
-├── main.py
-├── database.py
-├── llm_service.py
-├── dashboard.py
-├── database_setup.py
-├── requirements.txt
+```
+ecommerce-ai-analytics/
+│
+├── main.py              # FastAPI application
+├── dashboard.py         # Streamlit dashboard UI
+├── database.py          # SQLite connections and database logic
+├── llm_service.py       # LLM integration (Ollama/Mistral)
+├── database_setup.py    # CSV to SQLite data loader
+├── requirements.txt     # Python dependencies
+├── README.md            # This documentation
 └── data/
     ├── Product-Level-Total-Sales-and-Metrics-mapped.csv
     ├── Product-Level-Ad-Sales-and-Metrics-mapped.csv
     └── Product-Level-Eligibility-Table-mapped.csv
-📁 Project Files
-Core Application Files
-main.py - FastAPI backend application
+```
 
-database.py - Database management and SQLite operations
+## 🛠️ Setup & Installation
 
-llm_service.py - Mistral 7B integration and SQL generation
+### Prerequisites
 
-dashboard.py - Streamlit web dashboard
+- **Python 3.8+** - [Download from python.org](https://www.python.org/)
+- **Ollama** - [Download from ollama.com](https://ollama.com/download)
 
-database_setup.py - Initial database setup and CSV data loading
+### 1. Environment Setup
 
-Data Files
-Place your CSV files in the project directory:
+```bash
+# Clone or download the project
+git clone <your-repository-url>
+cd ecommerce-ai-analytics
 
-Product-Level-Total-Sales-and-Metrics-mapped.csv
+# Create virtual environment
+python -m venv venv
 
-Product-Level-Ad-Sales-and-Metrics-mapped.csv
+# Activate virtual environment
+# Windows:
+venv\Scripts\activate
+# Mac/Linux:
+source venv/bin/activate
+```
 
-Product-Level-Eligibility-Table-mapped.csv
+### 2. Install Dependencies
 
-⚙️ Configuration
-Database Setup
-Run the database setup script to create and populate the SQLite database:
+```bash
+pip install -r requirements.txt
+```
 
-bash
+**Dependencies included:**
+```
+fastapi==0.109.0
+uvicorn==0.27.1
+pandas
+numpy
+requests
+matplotlib
+plotly
+streamlit
+pydantic
+```
+
+### 3. Data Setup
+
+Place your CSV files in the `data/` directory:
+- `Product-Level-Total-Sales-and-Metrics-mapped.csv`
+- `Product-Level-Ad-Sales-and-Metrics-mapped.csv` 
+- `Product-Level-Eligibility-Table-mapped.csv`
+
+Create the SQLite database:
+```bash
 python database_setup.py
-This will:
+```
 
-Create ecommerce_data.db SQLite database
+This will create `ecommerce_data.db` with three tables: `total_sales`, `ad_sales`, and `eligibility`.
 
-Load your CSV data into three tables: total_sales, ad_sales, eligibility
+### 4. LLM Setup
 
-Verify data integrity
+Install and configure Ollama with Mistral 7B:
 
-Environment Variables (Optional)
-Create a .env file for configuration:
+```bash
+# Install Ollama (if not already installed)
+# Download from: https://ollama.com/download
 
-text
-DATABASE_PATH=ecommerce_data.db
-OLLAMA_BASE_URL=http://localhost:11434
-LOG_LEVEL=INFO
-🚀 Running the Application
-Method 1: Complete Setup (Recommended)
-Start Ollama service (if not running):
+# Pull Mistral 7B model
+ollama pull mistral:7b-instruct
 
-bash
+# Start Ollama server
 ollama serve
-Start the FastAPI backend:
+```
 
-bash
-python main.py
-The API will be available at http://localhost:8000
+Verify Ollama is running at `http://localhost:11434`
 
-Start the Streamlit dashboard (new terminal):
+## 🚀 Running the Application
 
-bash
-streamlit run dashboard.py
-The dashboard will be available at http://localhost:8501
+### Start the FastAPI Backend
 
-Method 2: Individual Components
-Start each component separately for development:
-
-Backend only:
-
-bash
+```bash
 uvicorn main:app --reload --host 0.0.0.0 --port 8000
-Dashboard only:
+```
 
-bash
+**API Available at:** `http://localhost:8000`  
+**API Documentation:** `http://localhost:8000/docs`
+
+### Launch the Streamlit Dashboard
+
+In a new terminal (with activated virtual environment):
+
+```bash
 streamlit run dashboard.py
-📊 API Usage
-Demo Endpoints
-Test the three main demo questions:
+```
 
+**Dashboard Available at:** `http://localhost:8501`
 
-🎨 Dashboard Features
-The Streamlit dashboard provides:
+## 💡 Usage Guide
 
-Interactive Query Interface: Ask questions in natural language
+### Interactive Dashboard
 
-Pre-built Demo Questions: Quick access to common queries
+Open `http://localhost:8501` and try these sample queries:
 
-Real-time Visualizations: Charts and graphs based on query results
+**Pre-built Demo Questions:**
+- "What is my total sales?"
+- "Calculate the RoAS (Return on Ad Spend)"
+- "Which product had the highest CPC?"
+- "Show total sales by product for top 10 products"
+- "Show sales trend over time"
 
-SQL Query Display: View generated SQL for transparency
+**Custom Queries:**
+- Enable "Include Chart" for automatic visualizations
+- Ask natural language questions about your business data
+- Get AI-powered insights and explanations
 
-Database Schema Explorer: Browse table structures
+### API Usage
 
-Multiple Chart Types: Bar charts, line charts, pie charts, scatter plots
+**Health Check:**
+```bash
+curl http://localhost:8000/health
+```
 
+**Ask Questions:**
+```bash
+curl -X POST "http://localhost:8000/ask" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "question": "What is my total sales?", 
+    "include_chart": true
+  }'
+```
 
-📦 Dependencies
-Core Dependencies
-text
-fastapi==0.104.1
-uvicorn==0.24.0
-pandas==2.1.3
-numpy==1.25.2
-streamlit==1.28.2
-requests==2.31.0
-pydantic==2.5.0
-Visualization Dependencies
-text
-matplotlib==3.8.2
-plotly==5.17.0
-Optional Dependencies
-text
-python-dotenv==1.0.0  # For environment variables
-pytest==7.4.3         # For testing
-black==23.9.1          # Code formatting
+**Response Format:**
+```json
+{
+  "question": "What is my total sales?",
+  "answer": "Your total sales amount to $1,234,567.89...",
+  "chart_data": {...},
+  "chart_type": "bar"
+}
+```
 
-Ensure Ollama and Mistral 7B are properly set up
+## 📊 Data Schema
 
-Check that your CSV data files are in the correct format
+### Sales Data (`total_sales`)
+- `date` - Transaction date
+- `item_id` - Product identifier
+- `total_sales` - Revenue amount
+- `total_units_ordered` - Quantity sold
 
-For additional support, ensure your system meets the minimum requirements and all installation steps have been followed correctly.
+### Ad Sales Data (`ad_sales`) 
+- `date` - Campaign date
+- `item_id` - Product identifier
+- `ad_sales` - Ad-driven revenue
+- `impressions` - Ad views
+- `ad_spend` - Advertising cost
+- `clicks` - Ad clicks
+- `units_sold` - Units sold via ads
+
+### Eligibility Data (`eligibility`)
+- `eligibility_datetime_utc` - Timestamp
+- `item_id` - Product identifier
+- `eligibility` - Eligibility status
+- `message` - Status details
+
+## 🔧 Troubleshooting
+
+### Common Issues
+
+**Unicode Encoding Errors (Windows):**
+- Set terminal encoding to UTF-8
+- Remove emoji characters from print statements
+
+**Database Connection Issues:**
+- Verify CSV files have no blank lines or extra columns
+- Delete `ecommerce_data.db` and re-run `database_setup.py`
+
+**LLM Not Responding:**
+- Ensure Ollama is running: `ollama serve`
+- Verify Mistral model is available: `ollama list`
+- Check connectivity to `http://localhost:11434`
+
+**Dashboard Not Loading:**
+- Confirm both FastAPI and Streamlit are running
+- Check for port conflicts (8000, 8501)
+- Verify virtual environment is activated
+
+### Performance Tips
+
+- Use Python 3.9+ for optimal performance
+- Ensure CSV data is clean and properly formatted
+- Monitor system resources when running large queries
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 🙏 Acknowledgments
+
+- [FastAPI](https://fastapi.tiangolo.com/) - Modern web framework for APIs
+- [Streamlit](https://streamlit.io/) - Interactive web applications
+- [Pandas](https://pandas.pydata.org/) - Data manipulation and analysis
+- [Ollama](https://ollama.com/) - Local LLM serving
+- [Mistral 7B](https://ollama.com/library/mistral) - Language model
+
+**Built with ❤️ for e-commerce data analytics**  
+**Last Updated:** July 23, 2025
